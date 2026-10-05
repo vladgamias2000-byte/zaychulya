@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ночная история 🌙</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Marck+Script&display=swap');
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #03040d;
+    }
+
+    body {
+      font-family: "Cormorant Garamond", serif;
+      color: #fff;
+      cursor: default;
+    }
+
+    /* Ночной фон */
+
+    .scene {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      background:
+        radial-gradient(
+          circle at 50% 42%,
+          rgba(110, 91, 150, 0.18) 0%,
+          rgba(28, 25, 58, 0.12) 25%,
+          transparent 55%
+        ),
+        linear-gradient(
+          to bottom,
+          #02030b 0%,
+          #07091a 48%,
+          #111022 100%
+        );
+    }
+
+    /* Луна */
+
+    .moon {
+      position: absolute;
+      width: 190px;
+      height: 190px;
+      top: 8%;
+      right: 12%;
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          circle at 35% 32%,
+          #fff 0%,
+          #f7f2ff 35%,
+          #ddd7ef 65%,
+          #bcb5d4 100%
+        );
+
+      box-shadow:
+        0 0 35px rgba(239, 232, 255, 0.45),
+        0 0 100px rgba(184, 170, 255, 0.22);
+
+      animation: moonFloat 7s ease-in-out infinite;
+    }
+
+    @keyframes moonFloat {
+      0%, 100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(8px);
+      }
+    }
+
+    /* Звёзды */
+
+    .stars {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      border-radius: 50%;
+      background: white;
+      box-shadow: 0 0 7px rgba(255,255,255,0.9);
+      animation: twinkle var(--duration) ease-in-out infinite;
+      animation-delay: var(--delay);
+      opacity: var(--opacity);
+    }
+
+    @keyframes twinkle {
+      0%, 100% {
+        transform: scale(0.7);
+        opacity: 0.25;
+      }
+
+      50% {
+        transform: scale(1.5);
+        opacity: 1;
+      }
+    }
+
+    /* Звёздная пыль */
+
+    .dust {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.7;
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,.8) 1px, transparent 1px),
+        radial-gradient(circle, rgba(193,174,255,.6) 1px, transparent 1px);
+      background-size: 90px 120px, 150px 170px;
+      animation: dustMove 35s linear infinite;
+    }
+
+    @keyframes dustMove {
+      from {
+        transform: translateY(0);
+      }
+
+      to {
+        transform: translateY(-120px);
+      }
+    }
+
+    /* Падающая звезда */
+
+    .shooting-star {
+      position: absolute;
+      top: -20px;
+      left: 15%;
+      width: 3px;
+      height: 90px;
+      border-radius: 50%;
+      background: linear-gradient(
+        to bottom,
+        rgba(255,255,255,0),
+        rgba(255,255,255,.9),
+        rgba(213,196,255,0)
+      );
+
+      transform: rotate(32deg);
+      filter: drop-shadow(0 0 8px white);
+      opacity: 0;
+
+      animation: shootingStar 9s linear infinite;
+      animation-delay: 3s;
+    }
+
+    @keyframes shootingStar {
+      0% {
+        transform: translate(0, 0) rotate(32deg);
+        opacity: 0;
+      }
+
+      4% {
+        opacity: 1;
+      }
+
+      13% {
+        transform: translate(430px, 500px) rotate(32deg);
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 0;
+      }
+    }
+
+    /* Туман */
+
+    .fog {
+      position: absolute;
+      left: -10%;
+      bottom: 8%;
+      width: 120%;
+      height: 45%;
+      pointer-events: none;
+
+      background:
+        radial-gradient(
+          ellipse at center,
+          rgba(196, 190, 230, 0.13),
+          rgba(100, 96, 145, 0.07) 40%,
+          transparent 72%
+        );
+
+      filter: blur(22px);
+      animation: fogMove 18s ease-in-out infinite alternate;
+    }
+
+    @keyframes fogMove {
+      from {
+        transform: translateX(-5%);
+      }
+
+      to {
+        transform: translateX(5%);
+      }
+    }
+
+    /* Лес */
+
+    .forest {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 48%;
+      pointer-events: none;
+    }
+
+    .tree {
+      position: absolute;
+      bottom: -20px;
+      width: 80px;
+      height: 260px;
+      transform-origin: bottom center;
+      opacity: 0.85;
+    }
+
+    .trunk {
+      position: absolute;
+      bottom: 0;
+      left: 36px;
+      width: 12px;
+      height: 170px;
+      border-radius: 8px;
+      background: linear-gradient(
+        to right,
+        #16101d,
+        #332031,
+        #120d17
+      );
+    }
+
+    .branch {
+      position: absolute;
+      width: 10px;
+      height: 110px;
+      background: #1b111c;
+      border-radius: 10px;
+      transform-origin: bottom;
+    }
+
+    .branch.one {
+      left: 30px;
+      bottom: 95px;
+      transform: rotate(-48deg);
+    }
+
+    .branch.two {
+      left: 42px;
+      bottom: 115px;
+      transform: rotate(43deg);
+    }
+
+    .branch.three {
+      left: 32px;
+      bottom: 135px;
+      transform: rotate(-25deg);
+    }
+
+    .crown {
+      position: absolute;
+      top: 0;
+      left: 2px;
+      width: 78px;
+      height: 78px;
+      border-radius: 50%;
+      background:
+        radial-gradient(
+          circle at 30% 30%,
+          rgba(190, 104, 157, .7),
+          rgba(75, 38, 75, .8) 45%,
+          rgba(17, 13, 27, .95) 75%
+        );
+
+      box-shadow:
+        0 0 30px rgba(215, 110, 180, .12);
+    }
+
+    .tree:nth-child(1) {
+      left: 2%;
+      transform: scale(1.2);
+    }
+
+    .tree:nth-child(2) {
+      left: 14%;
+      transform: scale(.75);
+    }
+
+    .tree:nth-child(3) {
+      left: 28%;
+      transform: scale(1.1);
+    }
+
+    .tree:nth-child(4) {
+      right: 27%;
+      transform: scale(.8);
+    }
+
+    .tree:nth-child(5) {
+      right: 12%;
+      transform: scale(1.25);
+    }
+
+    .tree:nth-child(6) {
+      right: 0;
+      transform: scale(.95);
+    }
+
+    /* Земля */
+
+    .ground {
+      position: absolute;
+      bottom: -18%;
+      left: -10%;
+      width: 120%;
+      height: 45%;
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          ellipse at center,
+          rgba(31, 25, 42, .95),
+          rgba(7, 7, 17, .98) 65%
+        );
+
+      box-shadow:
+        0 -20px 70px rgba(100, 77, 125, .08);
+    }
+
+    /* Лепестки */
+
+    .petals {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .petal {
+      position: absolute;
+      top: -30px;
+      width: 11px;
+      height: 7px;
+      border-radius: 80% 20% 80% 20%;
+      background: linear-gradient(
+        135deg,
+        #ffd1e7,
+        #d887ad
+      );
+
+      opacity: .8;
+      filter: drop-shadow(0 0 4px rgba(255, 160, 210, .3));
+
+      animation: petalFall var(--fall) linear forwards;
+    }
+
+    @keyframes petalFall {
+      0% {
+        transform:
+          translate3d(0, -20px, 0)
+          rotate(0deg);
+      }
+
+      25% {
+        transform:
+          translate3d(40px, 25vh, 0)
+          rotate(110deg);
+      }
+
+      50% {
+        transform:
+          translate3d(-35px, 50vh, 0)
+          rotate(220deg);
+      }
+
+      75% {
+        transform:
+          translate3d(45px, 75vh, 0)
+          rotate(300deg);
+      }
+
+      100% {
+        transform:
+          translate3d(-20px, 110vh, 0)
+          rotate(420deg);
+      }
+    }
+
+    /* Центральное приветствие */
+
+    .welcome {
+      position: absolute;
+      z-index: 20;
+      top: 50%;
+      left: 50%;
+      width: min(720px, 90%);
+      transform: translate(-50%, -50%);
+      text-align: center;
+
+      padding: 42px 35px 38px;
+
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: 30px;
+
+      background:
+        radial-gradient(
+          circle at center,
+          rgba(38, 31, 58, .48),
+          rgba(7, 7, 18, .25)
+        );
+
+      backdrop-filter: blur(8px);
+
+      box-shadow:
+        0 0 80px rgba(119, 91, 150, .10),
+        inset 0 0 60px rgba(255,255,255,.025);
+
+      animation: welcomeAppear 2.2s ease forwards;
+    }
+
+    @keyframes welcomeAppear {
+      from {
+        opacity: 0;
+        transform: translate(-50%, -47%);
+      }
+
+      to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+      }
+    }
+
+    .welcome h1 {
+      margin: 0 0 14px;
+
+      font-family: "Marck Script", cursive;
+      font-size: clamp(38px, 7vw, 67px);
+      font-weight: 400;
+
+      color: #fff;
+
+      text-shadow:
+        0 0 15px rgba(255,255,255,.18),
+        0 0 35px rgba(201,169,255,.16);
+    }
+
+    .question {
+      margin: 0 0 26px;
+
+      font-size: clamp(22px, 4vw, 31px);
+      color: #e8e0f4;
+
+      letter-spacing: .5px;
+    }
+
+    .message {
+      max-width: 590px;
+      margin: 0 auto 32px;
+
+      font-size: clamp(17px, 3vw, 21px);
+      line-height: 1.65;
+
+      color: #c8c0d4;
+    }
+
+    /* Кнопка */
+
+    .enter-button {
+      position: relative;
+
+      padding: 17px 38px;
+
+      border: 1px solid rgba(255, 211, 235, .35);
+      border-radius: 999px;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255,255,255,.12),
+          rgba(205,140,190,.13)
+        );
+
+      color: #fff;
+
+      font-family: "Cormorant Garamond", serif;
+      font-size: 23px;
+      letter-spacing: 1px;
+
+      cursor: pointer;
+
+      box-shadow:
+        0 0 25px rgba(225, 150, 205, .13),
+        inset 0 0 20px rgba(255,255,255,.04);
+
+      transition:
+        transform .3s ease,
+        box-shadow .3s ease,
+        background .3s ease;
+    }
+
+    .enter-button::before,
+    .enter-button::after {
+      content: "♡";
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+
+      font-family: serif;
+      font-size: 31px;
+
+      color: #f2bfdc;
+
+      text-shadow:
+        0 0 8px rgba(255, 174, 220, .7),
+        0 0 20px rgba(219, 130, 190, .3);
+    }
+
+    .enter-button::before {
+      right: calc(100% + 17px);
+    }
+
+    .enter-button::after {
+      left: calc(100% + 17px);
+    }
+
+    .enter-button:hover {
+      transform: translateY(-3px) scale(1.03);
+
+      box-shadow:
+        0 0 35px rgba(225, 150, 205, .25),
+        inset 0 0 25px rgba(255,255,255,.07);
+    }
+
+    .enter-button:active {
+      transform: scale(.97);
+    }
+
+    /* Затемнение при входе */
+
+    .fade-out {
+      position: fixed;
+      z-index: 100;
+      inset: 0;
+
+      background: #03040d;
+
+      opacity: 0;
+      pointer-events: none;
+
+      transition: opacity 1.5s ease;
+    }
+
+    .fade-out.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* Адаптация телефона */
+
+    @media (max-width: 600px) {
+      .moon {
+        width: 125px;
+        height: 125px;
+        right: 8%;
+        top: 8%;
+      }
+
+      .welcome {
+        padding: 32px 22px 30px;
+        border-radius: 24px;
+      }
+
+      .message {
+        line-height: 1.5;
+      }
+
+      .enter-button {
+        padding: 15px 30px;
+      }
+
+      .enter-button::before {
+        right: calc(100% + 10px);
+      }
+
+      .enter-button::after {
+        left: calc(100% + 10px);
+      }
+
+      .tree:nth-child(2),
+      .tree:nth-child(4) {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="scene">
+
+    <div class="moon"></div>
+
+    <div class="stars" id="stars"></div>
+
+    <div class="dust"></div>
+
+    <div class="shooting-star"></div>
+
+    <div class="fog"></div>
+
+    <div class="forest">
+
+      <div class="tree">
+        <div class="crown"></div>
+        <div class="trunk"></div>
+        <div class="branch one"></div>
+        <div class="branch two"></div>
+        <div class="branch three"></div>
+      </div>
+
+      <div class="tree">
+        <div class="crown"></div>
+        <div class="trunk"></div>
+        <div class="branch one"></div>
+        <div class="branch two"></div>
+        <div class="branch three"></div>
+      </div>
+
+      <div class="tree">
+        <div class="crown"></div>
+        <div class="trunk"></div>
+        <div class="branch one"></div>
+        <div class="branch two"></div>
+        <div class="branch three"></div>
+      </div>
+
+      <div class="tree">
+        <div class="crown"></div>
+        <div class="trunk"></div>
+        <div class="branch one"></div>
+        <div class="branch two"></div>
+        <div class="branch three"></div>
+      </div>
+
+      <div class="tree">
+        <div class="crown"></div>
+        <div class="trunk"></div>
+        <div class="branch one"></div>
+        <div class="branch two"></div>
+        <div class="branch three"></div>
+      </div>
+
+      <div class="tree">
+        <div class="crown"></div>
+        <div class="trunk"></div>
+        <div class="branch one"></div>
+        <div class="branch two"></div>
+        <div class="branch three"></div>
+      </div>
+
+    </div>
+
+    <div class="ground"></div>
+
+    <div class="petals" id="petals"></div>
+
+    <div class="welcome">
+
+      <h1>Привет, Зайчуля-красотуля</h1>
+
+      <p class="question">
+        Как ты сегодня? Как настроение?
+      </p>
+
+      <p class="message">
+        Если сегодня был плохой день — не переживай.
+        Мы сейчас всё исправим.
+        Оставим всё плохое за этой дверью
+        и попробуем вернуть тебе улыбку и настроение.
+      </p>
+
+      <button class="enter-button" id="enterButton">
+        Войти сюда
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="fade-out" id="fadeOut"></div>
+
+  <audio id="music" loop preload="auto">
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+
+    /* =========================
+       ЗВЁЗДЫ
+    ========================= */
+
+    const stars = document.getElementById("stars");
+
+    for (let i = 0; i < 130; i++) {
+
+      const star = document.createElement("div");
+
+      star.className = "star";
+
+      star.style.left = Math.random() * 100 + "%";
+      star.style.top = Math.random() * 72 + "%";
+
+      star.style.setProperty(
+        "--duration",
+        (2 + Math.random() * 5) + "s"
+      );
+
+      star.style.setProperty(
+        "--delay",
+        (-Math.random() * 5) + "s"
+      );
+
+      star.style.setProperty(
+        "--opacity",
+        (0.25 + Math.random() * 0.75)
+      );
+
+      stars.appendChild(star);
+    }
+
+
+    /* =========================
+       ЛЕПЕСТКИ
+    ========================= */
+
+    const petals = document.getElementById("petals");
+
+    function createPetal() {
+
+      const petal = document.createElement("div");
+
+      petal.className = "petal";
+
+      petal.style.left =
+        Math.random() * 100 + "%";
+
+      petal.style.setProperty(
+        "--fall",
+        (7 + Math.random() * 7) + "s"
+      );
+
+      petal.style.transform =
+        `rotate(${Math.random() * 360}deg)`;
+
+      petals.appendChild(petal);
+
+      setTimeout(() => {
+        petal.remove();
+      }, 15000);
+    }
+
+    setInterval(createPetal, 650);
+
+
+    /* =========================
+       ЛЕПЕСТКИ ПРИ КЛИКЕ
+    ========================= */
+
+    document.addEventListener("pointerdown", function(event) {
+
+      for (let i = 0; i < 7; i++) {
+
+        const petal = document.createElement("div");
+
+        petal.className = "petal";
+
+        petal.style.left = event.clientX + "px";
+        petal.style.top = event.clientY + "px";
+
+        petal.style.position = "fixed";
+
+        petal.style.animationDuration =
+          (3 + Math.random() * 3) + "s";
+
+        petals.appendChild(petal);
+
+        setTimeout(() => {
+          petal.remove();
+        }, 7000);
+      }
+
+    });
+
+
+    /* =========================
+       МУЗЫКА
+    ========================= */
+
+    const music = document.getElementById("music");
+
+    function startMusic() {
+
+      music.volume = 0.22;
+
+      music.play().catch(() => {
+        /* Браузер может заблокировать автозапуск.
+           Тогда музыка запустится после первого касания. */
+      });
+
+    }
+
+    window.addEventListener("load", startMusic);
+
+    document.addEventListener(
+      "pointerdown",
+      function startAfterTouch() {
+
+        music.play().catch(() => {});
+
+        document.removeEventListener(
+          "pointerdown",
+          startAfterTouch
+        );
+
+      },
+      { once: true }
+    );
+
+
+    /* =========================
+       КНОПКА ВХОДА
+    ========================= */
+
+    const enterButton =
+      document.getElementById("enterButton");
+
+    const fadeOut =
+      document.getElementById("fadeOut");
+
+    enterButton.addEventListener("click", function() {
+
+      fadeOut.classList.add("active");
+
+      setTimeout(() => {
+
+        /*
+          ПОКА ЗДЕСЬ ОСТАЁМСЯ НА ЭТОЙ СТРАНИЦЕ.
+
+          Позже сюда подключим настоящую
+          3D-игру.
+        */
+
+        fadeOut.classList.remove("active");
+
+      }, 1600);
+
+    });
+
+  </script>
+
+</body>
+</html>
