@@ -1,688 +1,978 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ночная история 🌙</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Ночная история для Зайчули-красотули. Маленький мир, созданный с теплом.">
 <meta property="og:title" content="Для Зайчули-красотули 🌙">
 <meta property="og:description" content="Оставим всё плохое за этой дверью и попробуем вернуть улыбку и настроение.">
 <meta property="og:type" content="website">
 
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Marck+Script&display=swap');
+<title>Для Зайчули-красотули 🌙</title>
 
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Marck+Script&display=swap" rel="stylesheet">
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html,
+body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#03040b;
+}
+
+body{
+    font-family:"Cormorant Garamond",serif;
+    color:#f8edf5;
+}
+
+/* =========================
+   SCENE
+========================= */
+
+.scene{
+    position:relative;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    isolation:isolate;
+    background:
+        radial-gradient(circle at 50% 25%,rgba(91,64,120,.22),transparent 28%),
+        radial-gradient(circle at 80% 70%,rgba(77,38,91,.15),transparent 32%),
+        linear-gradient(180deg,#050713 0%,#080916 42%,#0a0711 72%,#03040a 100%);
+}
+
+/* distant galaxy */
+
+.galaxy{
+    position:absolute;
+    inset:-20%;
+    z-index:0;
+    background:
+        radial-gradient(ellipse at 47% 35%,rgba(125,89,155,.13),transparent 19%),
+        radial-gradient(ellipse at 72% 25%,rgba(73,93,156,.09),transparent 20%),
+        radial-gradient(ellipse at 20% 65%,rgba(105,49,101,.10),transparent 22%);
+    filter:blur(16px);
+    animation:galaxyMove 22s ease-in-out infinite alternate;
+}
+
+@keyframes galaxyMove{
+    from{transform:scale(1) translate3d(-1%,0,0)}
+    to{transform:scale(1.08) translate3d(2%,-1%,0)}
+}
+
+/* =========================
+   MOON
+========================= */
+
+.moon{
+    position:absolute;
+    z-index:2;
+    width:clamp(170px,23vw,310px);
+    height:clamp(170px,23vw,310px);
+    border-radius:50%;
+    top:9%;
+    left:50%;
+    transform:translateX(-50%);
+    background:
+        radial-gradient(circle at 32% 28%,#fffdfd 0 7%,transparent 8%),
+        radial-gradient(circle at 67% 22%,rgba(150,141,161,.28) 0 5%,transparent 6%),
+        radial-gradient(circle at 38% 67%,rgba(126,117,135,.25) 0 7%,transparent 8%),
+        radial-gradient(circle at 70% 66%,rgba(112,104,126,.20) 0 9%,transparent 10%),
+        radial-gradient(circle at 50% 45%,#eee8ed 0%,#d6ced9 52%,#aaa1b1 100%);
+    box-shadow:
+        0 0 25px rgba(242,228,246,.48),
+        0 0 70px rgba(220,191,233,.25),
+        0 0 145px rgba(171,122,201,.16);
+    animation:moonFloat 9s ease-in-out infinite;
+}
+
+@keyframes moonFloat{
+    0%,100%{transform:translateX(-50%) translateY(0)}
+    50%{transform:translateX(-50%) translateY(-8px)}
+}
+
+.moon::before{
+    content:"";
+    position:absolute;
+    inset:-20px;
+    border-radius:50%;
+    background:radial-gradient(circle,rgba(236,216,244,.14),transparent 67%);
+    filter:blur(7px);
+}
+
+/* =========================
+   STARS
+========================= */
+
+.stars{
+    position:absolute;
+    inset:0;
+    z-index:1;
+    overflow:hidden;
+}
+
+.star{
+    position:absolute;
+    width:2px;
+    height:2px;
+    border-radius:50%;
+    background:#fff;
+    box-shadow:0 0 6px rgba(255,255,255,.8);
+    opacity:.45;
+    animation:twinkle var(--duration) ease-in-out infinite;
+}
+
+.star.large{
+    width:3px;
+    height:3px;
+}
+
+@keyframes twinkle{
+    0%,100%{opacity:.18;transform:scale(.75)}
+    50%{opacity:.95;transform:scale(1.45)}
+}
+
+/* star dust */
+
+.dust{
+    position:absolute;
+    inset:0;
+    z-index:1;
+    opacity:.55;
+    background:
+        radial-gradient(circle at 12% 24%,rgba(255,255,255,.55) 0 1px,transparent 2px),
+        radial-gradient(circle at 19% 37%,rgba(220,194,255,.5) 0 1px,transparent 2px),
+        radial-gradient(circle at 28% 17%,rgba(255,255,255,.42) 0 1px,transparent 2px),
+        radial-gradient(circle at 37% 31%,rgba(220,200,255,.35) 0 1px,transparent 2px),
+        radial-gradient(circle at 57% 18%,rgba(255,255,255,.5) 0 1px,transparent 2px),
+        radial-gradient(circle at 64% 36%,rgba(230,204,255,.4) 0 1px,transparent 2px),
+        radial-gradient(circle at 77% 17%,rgba(255,255,255,.42) 0 1px,transparent 2px),
+        radial-gradient(circle at 89% 31%,rgba(218,198,255,.4) 0 1px,transparent 2px),
+        radial-gradient(circle at 83% 52%,rgba(255,255,255,.38) 0 1px,transparent 2px);
+    animation:dustDrift 28s ease-in-out infinite alternate;
+}
+
+@keyframes dustDrift{
+    from{transform:translate3d(-1%,0,0) scale(1)}
+    to{transform:translate3d(1%,1%,0) scale(1.03)}
+}
+
+/* =========================
+   SHOOTING STARS
+========================= */
+
+.shooting-star{
+    position:absolute;
+    z-index:3;
+    width:110px;
+    height:1px;
+    opacity:0;
+    background:linear-gradient(90deg,transparent,rgba(255,239,255,.9));
+    transform:rotate(-25deg);
+    filter:drop-shadow(0 0 5px rgba(255,225,255,.8));
+    pointer-events:none;
+}
+
+.shooting-star.active{
+    animation:shoot 1.7s ease-out forwards;
+}
+
+@keyframes shoot{
+    0%{
+        opacity:0;
+        transform:translate3d(0,0,0) rotate(-25deg);
     }
-
-    html,
-    body {
-      margin: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: #03040d;
+    12%{opacity:1}
+    100%{
+        opacity:0;
+        transform:translate3d(-360px,180px,0) rotate(-25deg);
     }
+}
 
-    body {
-      font-family: "Cormorant Garamond", serif;
-      color: #fff;
-      cursor: default;
+/* =========================
+   SAKURA FOREST
+========================= */
+
+.forest{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    height:63%;
+    z-index:4;
+    pointer-events:none;
+}
+
+/* dark distant silhouettes */
+
+.distant-tree{
+    position:absolute;
+    bottom:8%;
+    width:230px;
+    height:360px;
+    opacity:.42;
+    filter:blur(1px);
+}
+
+.distant-tree .trunk{
+    position:absolute;
+    left:50%;
+    bottom:0;
+    width:30px;
+    height:250px;
+    transform:translateX(-50%) rotate(4deg);
+    background:linear-gradient(90deg,#09070c,#211523 45%,#08060a);
+    border-radius:50%;
+}
+
+.distant-tree .crown{
+    position:absolute;
+    width:280px;
+    height:220px;
+    left:50%;
+    top:0;
+    transform:translateX(-50%);
+    border-radius:48% 52% 45% 55%;
+    background:
+        radial-gradient(circle at 25% 45%,rgba(53,29,55,.9),transparent 29%),
+        radial-gradient(circle at 55% 30%,rgba(61,35,65,.85),transparent 30%),
+        radial-gradient(circle at 78% 53%,rgba(47,28,51,.9),transparent 31%),
+        #0d0a12;
+}
+
+/* foreground sakura tree */
+
+.sakura-tree{
+    position:absolute;
+    bottom:-4%;
+    width:430px;
+    height:610px;
+    filter:drop-shadow(0 10px 24px rgba(0,0,0,.42));
+}
+
+.tree-left{
+    left:-110px;
+}
+
+.tree-right{
+    right:-110px;
+    transform:scaleX(-1);
+}
+
+.tree-center{
+    left:50%;
+    bottom:-18%;
+    transform:translateX(-50%) scale(.76);
+    opacity:.72;
+}
+
+/* trunk */
+
+.sakura-tree .trunk{
+    position:absolute;
+    bottom:0;
+    left:50%;
+    width:64px;
+    height:470px;
+    transform:translateX(-50%) rotate(-4deg);
+    border-radius:60% 40% 30% 25%;
+    background:
+        linear-gradient(90deg,
+            #09070b 0%,
+            #1b1119 22%,
+            #30202b 43%,
+            #140c15 70%,
+            #07060a 100%);
+    box-shadow:
+        inset 10px 0 15px rgba(0,0,0,.45),
+        inset -8px 0 10px rgba(117,73,111,.13);
+}
+
+.sakura-tree .trunk::after{
+    content:"";
+    position:absolute;
+    left:43%;
+    top:-10px;
+    width:16px;
+    height:430px;
+    border-radius:50%;
+    background:linear-gradient(90deg,transparent,rgba(118,76,107,.18),transparent);
+    transform:rotate(8deg);
+}
+
+/* branches */
+
+.branch{
+    position:absolute;
+    height:24px;
+    border-radius:100% 20% 20% 100%;
+    transform-origin:left center;
+    background:linear-gradient(90deg,#100a11,#30202c 60%,#120b12);
+}
+
+.branch.one{
+    width:250px;
+    left:49%;
+    top:28%;
+    transform:rotate(-30deg);
+}
+
+.branch.two{
+    width:215px;
+    left:46%;
+    top:39%;
+    transform:rotate(31deg);
+}
+
+.branch.three{
+    width:190px;
+    left:39%;
+    top:20%;
+    transform:rotate(22deg);
+}
+
+.branch.four{
+    width:160px;
+    left:52%;
+    top:48%;
+    transform:rotate(-20deg);
+}
+
+.branch.five{
+    width:135px;
+    left:35%;
+    top:52%;
+    transform:rotate(35deg);
+}
+
+/* smaller branch endings */
+
+.branch::after{
+    content:"";
+    position:absolute;
+    right:0;
+    top:-4px;
+    width:70px;
+    height:10px;
+    border-radius:50%;
+    background:#211521;
+    transform:rotate(-16deg);
+}
+
+/* blossoms */
+
+.blossoms{
+    position:absolute;
+    inset:0;
+}
+
+.blossom{
+    position:absolute;
+    width:78px;
+    height:64px;
+    filter:drop-shadow(0 0 8px rgba(230,130,190,.12));
+}
+
+.blossom span{
+    position:absolute;
+    width:25px;
+    height:33px;
+    border-radius:70% 30% 70% 30%;
+    transform-origin:bottom center;
+    background:
+        radial-gradient(circle at 35% 28%,rgba(255,241,249,.75) 0 7%,transparent 8%),
+        linear-gradient(145deg,#e9a7c7,#a85d8b);
+    box-shadow:
+        inset 2px 2px 4px rgba(255,255,255,.18),
+        0 0 8px rgba(219,116,172,.15);
+}
+
+.blossom span:nth-child(1){left:27px;top:0;transform:rotate(0deg)}
+.blossom span:nth-child(2){left:45px;top:12px;transform:rotate(72deg)}
+.blossom span:nth-child(3){left:39px;top:33px;transform:rotate(144deg)}
+.blossom span:nth-child(4){left:13px;top:33px;transform:rotate(216deg)}
+.blossom span:nth-child(5){left:6px;top:12px;transform:rotate(288deg)}
+
+.blossom::after{
+    content:"";
+    position:absolute;
+    width:10px;
+    height:10px;
+    left:34px;
+    top:27px;
+    border-radius:50%;
+    background:#f4c5d7;
+    box-shadow:0 0 6px rgba(255,215,235,.45);
+}
+
+/* blossom positions */
+
+.b1{left:6%;top:7%;transform:scale(1.15)}
+.b2{left:22%;top:18%;transform:scale(.82)}
+.b3{left:36%;top:4%;transform:scale(1.1)}
+.b4{left:52%;top:17%;transform:scale(.72)}
+.b5{left:67%;top:5%;transform:scale(1.25)}
+.b6{left:82%;top:21%;transform:scale(.92)}
+.b7{left:12%;top:39%;transform:scale(.76)}
+.b8{left:29%;top:35%;transform:scale(1.08)}
+.b9{left:45%;top:41%;transform:scale(.78)}
+.b10{left:59%;top:34%;transform:scale(1)}
+.b11{left:75%;top:40%;transform:scale(.72)}
+.b12{left:88%;top:33%;transform:scale(1.05)}
+.b13{left:4%;top:56%;transform:scale(.72)}
+.b14{left:18%;top:51%;transform:scale(.92)}
+.b15{left:78%;top:56%;transform:scale(.95)}
+.b16{left:91%;top:51%;transform:scale(.68)}
+
+/* =========================
+   GROUND
+========================= */
+
+.ground{
+    position:absolute;
+    z-index:7;
+    left:-5%;
+    right:-5%;
+    bottom:-11%;
+    height:38%;
+    border-radius:50% 50% 0 0;
+    background:
+        radial-gradient(ellipse at 50% 10%,rgba(81,48,79,.26),transparent 48%),
+        linear-gradient(180deg,#0c0710,#040509 70%);
+    box-shadow:0 -25px 60px rgba(4,3,8,.75);
+}
+
+/* =========================
+   FALLING SAKURA PETALS
+========================= */
+
+.petals{
+    position:absolute;
+    inset:0;
+    z-index:9;
+    pointer-events:none;
+    overflow:hidden;
+}
+
+.petal{
+    position:absolute;
+    width:13px;
+    height:8px;
+    border-radius:85% 15% 85% 15%;
+    background:linear-gradient(135deg,#ffd4e8,#d878aa 72%);
+    box-shadow:
+        0 0 5px rgba(255,174,213,.28),
+        inset 1px 1px 2px rgba(255,255,255,.3);
+    opacity:0;
+    will-change:transform,opacity;
+    animation:petalFall var(--fall) linear forwards;
+}
+
+.petal::after{
+    content:"";
+    position:absolute;
+    width:1px;
+    height:7px;
+    left:6px;
+    top:1px;
+    background:rgba(133,55,92,.22);
+    transform:rotate(20deg);
+}
+
+@keyframes petalFall{
+    0%{
+        opacity:0;
+        transform:translate3d(0,-30px,0) rotate(0deg);
     }
-
-    /* Ночной фон */
-
-    .scene {
-      position: fixed;
-      inset: 0;
-      overflow: hidden;
-      background:
-        radial-gradient(
-          circle at 50% 42%,
-          rgba(110, 91, 150, 0.18) 0%,
-          rgba(28, 25, 58, 0.12) 25%,
-          transparent 55%
-        ),
-        linear-gradient(
-          to bottom,
-          #02030b 0%,
-          #07091a 48%,
-          #111022 100%
-        );
+    8%{
+        opacity:var(--opacity);
     }
-
-    /* Луна */
-
-    .moon {
-      position: absolute;
-      width: 190px;
-      height: 190px;
-      top: 8%;
-      right: 12%;
-      border-radius: 50%;
-
-      background:
-        radial-gradient(
-          circle at 35% 32%,
-          #fff 0%,
-          #f7f2ff 35%,
-          #ddd7ef 65%,
-          #bcb5d4 100%
-        );
-
-      box-shadow:
-        0 0 35px rgba(239, 232, 255, 0.45),
-        0 0 100px rgba(184, 170, 255, 0.22);
-
-      animation: moonFloat 7s ease-in-out infinite;
+    55%{
+        opacity:var(--opacity);
     }
-
-    @keyframes moonFloat {
-      0%, 100% {
-        transform: translateY(0);
-      }
-
-      50% {
-        transform: translateY(8px);
-      }
+    88%{
+        opacity:calc(var(--opacity) * .58);
     }
-
-    /* Звёзды */
-
-    .stars {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-    }
-
-    .star {
-      position: absolute;
-      width: 2px;
-      height: 2px;
-      border-radius: 50%;
-      background: white;
-      box-shadow: 0 0 7px rgba(255,255,255,0.9);
-      animation: twinkle var(--duration) ease-in-out infinite;
-      animation-delay: var(--delay);
-      opacity: var(--opacity);
-    }
-
-    @keyframes twinkle {
-      0%, 100% {
-        transform: scale(0.7);
-        opacity: 0.25;
-      }
-
-      50% {
-        transform: scale(1.5);
-        opacity: 1;
-      }
-    }
-
-    /* Звёздная пыль */
-
-    .dust {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      opacity: 0.7;
-      background-image:
-        radial-gradient(circle, rgba(255,255,255,.8) 1px, transparent 1px),
-        radial-gradient(circle, rgba(193,174,255,.6) 1px, transparent 1px);
-      background-size: 90px 120px, 150px 170px;
-      animation: dustMove 35s linear infinite;
-    }
-
-    @keyframes dustMove {
-      from {
-        transform: translateY(0);
-      }
-
-      to {
-        transform: translateY(-120px);
-      }
-    }
-
-    /* Падающая звезда */
-
-    .shooting-star {
-      position: absolute;
-      top: -20px;
-      left: 15%;
-      width: 3px;
-      height: 90px;
-      border-radius: 50%;
-      background: linear-gradient(
-        to bottom,
-        rgba(255,255,255,0),
-        rgba(255,255,255,.9),
-        rgba(213,196,255,0)
-      );
-
-      transform: rotate(32deg);
-      filter: drop-shadow(0 0 8px white);
-      opacity: 0;
-
-      animation: shootingStar 9s linear infinite;
-      animation-delay: 3s;
-    }
-
-    @keyframes shootingStar {
-      0% {
-        transform: translate(0, 0) rotate(32deg);
-        opacity: 0;
-      }
-
-      4% {
-        opacity: 1;
-      }
-
-      13% {
-        transform: translate(430px, 500px) rotate(32deg);
-        opacity: 0;
-      }
-
-      100% {
-        opacity: 0;
-      }
-    }
-
-    /* Туман */
-
-    .fog {
-      position: absolute;
-      left: -10%;
-      bottom: 8%;
-      width: 120%;
-      height: 45%;
-      pointer-events: none;
-
-      background:
-        radial-gradient(
-          ellipse at center,
-          rgba(196, 190, 230, 0.13),
-          rgba(100, 96, 145, 0.07) 40%,
-          transparent 72%
-        );
-
-      filter: blur(22px);
-      animation: fogMove 18s ease-in-out infinite alternate;
-    }
-
-    @keyframes fogMove {
-      from {
-        transform: translateX(-5%);
-      }
-
-      to {
-        transform: translateX(5%);
-      }
-    }
-
-    /* Лес */
-
-    .forest {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 48%;
-      pointer-events: none;
-    }
-
-    .tree {
-      position: absolute;
-      bottom: -20px;
-      width: 80px;
-      height: 260px;
-      transform-origin: bottom center;
-      opacity: 0.85;
-    }
-
-    .trunk {
-      position: absolute;
-      bottom: 0;
-      left: 36px;
-      width: 12px;
-      height: 170px;
-      border-radius: 8px;
-      background: linear-gradient(
-        to right,
-        #16101d,
-        #332031,
-        #120d17
-      );
-    }
-
-    .branch {
-      position: absolute;
-      width: 10px;
-      height: 110px;
-      background: #1b111c;
-      border-radius: 10px;
-      transform-origin: bottom;
-    }
-
-    .branch.one {
-      left: 30px;
-      bottom: 95px;
-      transform: rotate(-48deg);
-    }
-
-    .branch.two {
-      left: 42px;
-      bottom: 115px;
-      transform: rotate(43deg);
-    }
-
-    .branch.three {
-      left: 32px;
-      bottom: 135px;
-      transform: rotate(-25deg);
-    }
-
-    .crown {
-      position: absolute;
-      top: 0;
-      left: 2px;
-      width: 78px;
-      height: 78px;
-      border-radius: 50%;
-      background:
-        radial-gradient(
-          circle at 30% 30%,
-          rgba(190, 104, 157, .7),
-          rgba(75, 38, 75, .8) 45%,
-          rgba(17, 13, 27, .95) 75%
-        );
-
-      box-shadow:
-        0 0 30px rgba(215, 110, 180, .12);
-    }
-
-    .tree:nth-child(1) {
-      left: 2%;
-      transform: scale(1.2);
-    }
-
-    .tree:nth-child(2) {
-      left: 14%;
-      transform: scale(.75);
-    }
-
-    .tree:nth-child(3) {
-      left: 28%;
-      transform: scale(1.1);
-    }
-
-    .tree:nth-child(4) {
-      right: 27%;
-      transform: scale(.8);
-    }
-
-    .tree:nth-child(5) {
-      right: 12%;
-      transform: scale(1.25);
-    }
-
-    .tree:nth-child(6) {
-      right: 0;
-      transform: scale(.95);
-    }
-
-    /* Земля */
-
-    .ground {
-      position: absolute;
-      bottom: -18%;
-      left: -10%;
-      width: 120%;
-      height: 45%;
-      border-radius: 50%;
-
-      background:
-        radial-gradient(
-          ellipse at center,
-          rgba(31, 25, 42, .95),
-          rgba(7, 7, 17, .98) 65%
-        );
-
-      box-shadow:
-        0 -20px 70px rgba(100, 77, 125, .08);
-    }
-
-    /* Лепестки */
-
-    .petals {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-    }
-
-    .petal {
-      position: absolute;
-      top: -30px;
-      width: 11px;
-      height: 7px;
-      border-radius: 80% 20% 80% 20%;
-      background: linear-gradient(
-        135deg,
-        #ffd1e7,
-        #d887ad
-      );
-
-      opacity: .8;
-      filter: drop-shadow(0 0 4px rgba(255, 160, 210, .3));
-
-      animation: petalFall var(--fall) linear forwards;
-    }
-
-    @keyframes petalFall {
-      0% {
+    100%{
+        opacity:0;
         transform:
-          translate3d(0, -20px, 0)
-          rotate(0deg);
-      }
+            translate3d(var(--drift),110vh,0)
+            rotate(var(--rotation));
+    }
+}
 
-      25% {
+/* =========================
+   FOG
+========================= */
+
+.fog{
+    position:absolute;
+    z-index:10;
+    left:-15%;
+    width:130%;
+    height:30%;
+    bottom:10%;
+    opacity:.17;
+    filter:blur(20px);
+    background:
+        radial-gradient(ellipse at 20% 50%,rgba(190,155,196,.38),transparent 42%),
+        radial-gradient(ellipse at 60% 40%,rgba(133,157,191,.24),transparent 44%),
+        radial-gradient(ellipse at 85% 60%,rgba(192,142,183,.26),transparent 39%);
+    animation:fogMove 18s ease-in-out infinite alternate;
+    pointer-events:none;
+}
+
+.fog.f2{
+    bottom:27%;
+    opacity:.09;
+    filter:blur(30px);
+    transform:scaleX(-1);
+    animation-duration:25s;
+}
+
+.fog.f3{
+    bottom:2%;
+    opacity:.12;
+    filter:blur(36px);
+    animation-duration:32s;
+}
+
+@keyframes fogMove{
+    from{transform:translate3d(-4%,0,0) scaleX(1)}
+    to{transform:translate3d(6%,-10px,0) scaleX(1.08)}
+}
+
+/* =========================
+   WELCOME
+========================= */
+
+.welcome{
+    position:absolute;
+    z-index:20;
+    top:50%;
+    left:50%;
+    width:min(760px,88vw);
+    transform:translate(-50%,-50%);
+    text-align:center;
+    padding:40px 35px;
+}
+
+.welcome::before{
+    content:"";
+    position:absolute;
+    inset:-70px;
+    z-index:-1;
+    border-radius:50%;
+    background:radial-gradient(ellipse,rgba(17,11,26,.62),transparent 70%);
+    filter:blur(20px);
+}
+
+.greeting{
+    font-family:"Marck Script",cursive;
+    font-size:clamp(34px,5vw,62px);
+    line-height:1.08;
+    color:#fff1fa;
+    text-shadow:
+        0 0 15px rgba(242,175,217,.32),
+        0 3px 25px rgba(0,0,0,.65);
+    margin-bottom:18px;
+}
+
+.question{
+    font-size:clamp(22px,3vw,35px);
+    line-height:1.2;
+    color:#eaddea;
+    text-shadow:0 2px 15px rgba(0,0,0,.7);
+    margin-bottom:25px;
+}
+
+.message{
+    max-width:650px;
+    margin:0 auto 34px;
+    font-size:clamp(18px,2.2vw,24px);
+    line-height:1.45;
+    color:#d8cbd9;
+    text-shadow:0 2px 12px rgba(0,0,0,.8);
+}
+
+.enter-button{
+    position:relative;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:245px;
+    min-height:68px;
+    padding:16px 45px;
+    border:1px solid rgba(255,195,227,.34);
+    border-radius:50px;
+    background:
+        linear-gradient(180deg,rgba(94,48,86,.56),rgba(40,20,42,.76));
+    color:#fff3fa;
+    font-family:"Cormorant Garamond",serif;
+    font-size:clamp(22px,3vw,30px);
+    cursor:pointer;
+    box-shadow:
+        0 0 25px rgba(208,108,169,.16),
+        inset 0 0 20px rgba(255,255,255,.035);
+    transition:
+        transform .35s ease,
+        box-shadow .35s ease,
+        background .35s ease;
+    -webkit-tap-highlight-color:transparent;
+}
+
+.enter-button::before,
+.enter-button::after{
+    content:"♡";
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    font-size:29px;
+    color:#efacd0;
+    text-shadow:
+        0 0 8px rgba(244,150,204,.7),
+        0 0 18px rgba(231,105,176,.3);
+}
+
+.enter-button::before{left:-42px}
+.enter-button::after{right:-42px}
+
+.enter-button:hover{
+    transform:translateY(-3px) scale(1.025);
+    box-shadow:
+        0 0 35px rgba(225,116,181,.26),
+        inset 0 0 25px rgba(255,255,255,.05);
+}
+
+.enter-button:active{
+    transform:scale(.98);
+}
+
+/* =========================
+   INTERACTIVE PETALS
+========================= */
+
+.tap-petal{
+    position:absolute;
+    width:14px;
+    height:9px;
+    border-radius:85% 15% 85% 15%;
+    background:linear-gradient(135deg,#ffe0ee,#d776a8);
+    box-shadow:
+        0 0 7px rgba(255,177,215,.32),
+        inset 1px 1px 2px rgba(255,255,255,.32);
+    pointer-events:none;
+    will-change:transform,opacity;
+    animation:tapPetal var(--duration) cubic-bezier(.18,.72,.25,1) forwards;
+}
+
+.tap-petal::after{
+    content:"";
+    position:absolute;
+    left:6px;
+    top:1px;
+    width:1px;
+    height:7px;
+    background:rgba(119,48,83,.25);
+    transform:rotate(20deg);
+}
+
+@keyframes tapPetal{
+    0%{
+        opacity:0;
         transform:
-          translate3d(40px, 25vh, 0)
-          rotate(110deg);
-      }
-
-      50% {
+            translate3d(0,0,0)
+            rotate(0deg)
+            scale(.65);
+    }
+    10%{
+        opacity:.9;
         transform:
-          translate3d(-35px, 50vh, 0)
-          rotate(220deg);
-      }
-
-      75% {
+            translate3d(calc(var(--x) * .12),calc(var(--y) * .12),0)
+            rotate(calc(var(--r) * .12))
+            scale(1);
+    }
+    38%{
+        opacity:.82;
+    }
+    70%{
+        opacity:.48;
+    }
+    100%{
+        opacity:0;
         transform:
-          translate3d(45px, 75vh, 0)
-          rotate(300deg);
-      }
+            translate3d(var(--x),calc(var(--y) + 90px),0)
+            rotate(var(--r))
+            scale(.82);
+    }
+}
 
-      100% {
-        transform:
-          translate3d(-20px, 110vh, 0)
-          rotate(420deg);
-      }
+/* =========================
+   FADE
+========================= */
+
+.fade{
+    position:absolute;
+    inset:0;
+    z-index:100;
+    background:#020308;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 1.5s ease;
+}
+
+.fade.active{
+    opacity:1;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:700px){
+
+    .moon{
+        top:8%;
+        width:155px;
+        height:155px;
     }
 
-    /* Центральное приветствие */
-
-    .welcome {
-      position: absolute;
-      z-index: 20;
-      top: 50%;
-      left: 50%;
-      width: min(720px, 90%);
-      transform: translate(-50%, -50%);
-      text-align: center;
-
-      padding: 42px 35px 38px;
-
-      border: 1px solid rgba(255,255,255,.09);
-      border-radius: 30px;
-
-      background:
-        radial-gradient(
-          circle at center,
-          rgba(38, 31, 58, .48),
-          rgba(7, 7, 18, .25)
-        );
-
-      backdrop-filter: blur(8px);
-
-      box-shadow:
-        0 0 80px rgba(119, 91, 150, .10),
-        inset 0 0 60px rgba(255,255,255,.025);
-
-      animation: welcomeAppear 2.2s ease forwards;
+    .forest{
+        height:55%;
     }
 
-    @keyframes welcomeAppear {
-      from {
-        opacity: 0;
-        transform: translate(-50%, -47%);
-      }
-
-      to {
-        opacity: 1;
-        transform: translate(-50%, -50%);
-      }
+    .sakura-tree{
+        width:300px;
+        height:430px;
     }
 
-    .welcome h1 {
-      margin: 0 0 14px;
-
-      font-family: "Marck Script", cursive;
-      font-size: clamp(38px, 7vw, 67px);
-      font-weight: 400;
-
-      color: #fff;
-
-      text-shadow:
-        0 0 15px rgba(255,255,255,.18),
-        0 0 35px rgba(201,169,255,.16);
+    .tree-left{
+        left:-150px;
     }
 
-    .question {
-      margin: 0 0 26px;
-
-      font-size: clamp(22px, 4vw, 31px);
-      color: #e8e0f4;
-
-      letter-spacing: .5px;
+    .tree-right{
+        right:-150px;
     }
 
-    .message {
-      max-width: 590px;
-      margin: 0 auto 32px;
-
-      font-size: clamp(17px, 3vw, 21px);
-      line-height: 1.65;
-
-      color: #c8c0d4;
+    .tree-center{
+        bottom:-10%;
+        transform:translateX(-50%) scale(.58);
     }
 
-    /* Кнопка */
-
-    .enter-button {
-      position: relative;
-
-      padding: 17px 38px;
-
-      border: 1px solid rgba(255, 211, 235, .35);
-      border-radius: 999px;
-
-      background:
-        linear-gradient(
-          135deg,
-          rgba(255,255,255,.12),
-          rgba(205,140,190,.13)
-        );
-
-      color: #fff;
-
-      font-family: "Cormorant Garamond", serif;
-      font-size: 23px;
-      letter-spacing: 1px;
-
-      cursor: pointer;
-
-      box-shadow:
-        0 0 25px rgba(225, 150, 205, .13),
-        inset 0 0 20px rgba(255,255,255,.04);
-
-      transition:
-        transform .3s ease,
-        box-shadow .3s ease,
-        background .3s ease;
+    .sakura-tree .trunk{
+        height:330px;
+        width:46px;
     }
 
-    .enter-button::before,
-    .enter-button::after {
-      content: "♡";
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
+    .branch.one{width:180px}
+    .branch.two{width:155px}
+    .branch.three{width:135px}
+    .branch.four{width:125px}
+    .branch.five{width:105px}
 
-      font-family: serif;
-      font-size: 31px;
-
-      color: #f2bfdc;
-
-      text-shadow:
-        0 0 8px rgba(255, 174, 220, .7),
-        0 0 20px rgba(219, 130, 190, .3);
+    .blossom{
+        transform:scale(.72);
     }
 
-    .enter-button::before {
-      right: calc(100% + 17px);
+    .welcome{
+        width:91vw;
+        padding:25px 18px;
     }
 
-    .enter-button::after {
-      left: calc(100% + 17px);
+    .greeting{
+        font-size:38px;
     }
 
-    .enter-button:hover {
-      transform: translateY(-3px) scale(1.03);
-
-      box-shadow:
-        0 0 35px rgba(225, 150, 205, .25),
-        inset 0 0 25px rgba(255,255,255,.07);
+    .question{
+        font-size:25px;
     }
 
-    .enter-button:active {
-      transform: scale(.97);
+    .message{
+        font-size:19px;
     }
 
-    /* Затемнение при входе */
-
-    .fade-out {
-      position: fixed;
-      z-index: 100;
-      inset: 0;
-
-      background: #03040d;
-
-      opacity: 0;
-      pointer-events: none;
-
-      transition: opacity 1.5s ease;
+    .enter-button{
+        min-width:205px;
+        min-height:61px;
+        padding:13px 35px;
     }
 
-    .fade-out.active {
-      opacity: 1;
-      pointer-events: all;
+    .enter-button::before{
+        left:-30px;
     }
 
-    /* Адаптация телефона */
-
-    @media (max-width: 600px) {
-      .moon {
-        width: 125px;
-        height: 125px;
-        right: 8%;
-        top: 8%;
-      }
-
-      .welcome {
-        padding: 32px 22px 30px;
-        border-radius: 24px;
-      }
-
-      .message {
-        line-height: 1.5;
-      }
-
-      .enter-button {
-        padding: 15px 30px;
-      }
-
-      .enter-button::before {
-        right: calc(100% + 10px);
-      }
-
-      .enter-button::after {
-        left: calc(100% + 10px);
-      }
-
-      .tree:nth-child(2),
-      .tree:nth-child(4) {
-        display: none;
-      }
+    .enter-button::after{
+        right:-30px;
     }
-  </style>
+}
+</style>
 </head>
 
 <body>
 
-  <div class="scene">
+<div class="scene">
+
+    <div class="galaxy"></div>
 
     <div class="moon"></div>
 
-    <div class="stars" id="stars"></div>
-
     <div class="dust"></div>
 
-    <div class="shooting-star"></div>
+    <div class="stars" id="stars"></div>
 
-    <div class="fog"></div>
+    <div class="shooting-star" id="shootingStar"></div>
 
     <div class="forest">
 
-      <div class="tree">
-        <div class="crown"></div>
-        <div class="trunk"></div>
-        <div class="branch one"></div>
-        <div class="branch two"></div>
-        <div class="branch three"></div>
-      </div>
+        <div class="distant-tree" style="left:3%;">
+            <div class="trunk"></div>
+            <div class="crown"></div>
+        </div>
 
-      <div class="tree">
-        <div class="crown"></div>
-        <div class="trunk"></div>
-        <div class="branch one"></div>
-        <div class="branch two"></div>
-        <div class="branch three"></div>
-      </div>
+        <div class="distant-tree" style="left:28%;transform:scale(.82);">
+            <div class="trunk"></div>
+            <div class="crown"></div>
+        </div>
 
-      <div class="tree">
-        <div class="crown"></div>
-        <div class="trunk"></div>
-        <div class="branch one"></div>
-        <div class="branch two"></div>
-        <div class="branch three"></div>
-      </div>
+        <div class="distant-tree" style="right:25%;transform:scale(.88);">
+            <div class="trunk"></div>
+            <div class="crown"></div>
+        </div>
 
-      <div class="tree">
-        <div class="crown"></div>
-        <div class="trunk"></div>
-        <div class="branch one"></div>
-        <div class="branch two"></div>
-        <div class="branch three"></div>
-      </div>
+        <div class="distant-tree" style="right:2%;transform:scale(.75);">
+            <div class="trunk"></div>
+            <div class="crown"></div>
+        </div>
 
-      <div class="tree">
-        <div class="crown"></div>
-        <div class="trunk"></div>
-        <div class="branch one"></div>
-        <div class="branch two"></div>
-        <div class="branch three"></div>
-      </div>
+        <div class="sakura-tree tree-left">
 
-      <div class="tree">
-        <div class="crown"></div>
-        <div class="trunk"></div>
-        <div class="branch one"></div>
-        <div class="branch two"></div>
-        <div class="branch three"></div>
-      </div>
+            <div class="trunk"></div>
+
+            <div class="branch one"></div>
+            <div class="branch two"></div>
+            <div class="branch three"></div>
+            <div class="branch four"></div>
+            <div class="branch five"></div>
+
+            <div class="blossoms">
+
+                <div class="blossom b1">
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+
+                <div class="blossom b2">
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+
+                <div class="blossom b3">
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+
+                <div class="blossom b4">
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+
+                <div class="blossom b5">
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+
+                <div class="blossom b6">
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+
+                <div class="blossom b7">
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+
+                <div class="blossom b8">
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="sakura-tree tree-right">
+
+            <div class="trunk"></div>
+
+            <div class="branch one"></div>
+            <div class="branch two"></div>
+            <div class="branch three"></div>
+            <div class="branch four"></div>
+            <div class="branch five"></div>
+
+            <div class="blossoms">
+
+                <div class="blossom b3">
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+
+                <div class="blossom b5">
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+
+                <div class="blossom b6">
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+
+                <div class="blossom b8">
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+
+                <div class="blossom b10">
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+
+                <div class="blossom b12">
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="sakura-tree tree-center">
+
+            <div class="trunk"></div>
+
+            <div class="branch one"></div>
+            <div class="branch two"></div>
+            <div class="branch three"></div>
+            <div class="branch four"></div>
+            <div class="branch five"></div>
+
+            <div class="blossoms">
+
+                <div class="blossom b2">
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+
+                <div class="blossom b4">
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+
+                <div class="blossom b7">
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+
+                <div class="blossom b9">
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+
+                <div class="blossom b11">
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+
+            </div>
+        </div>
 
     </div>
 
@@ -690,199 +980,349 @@
 
     <div class="petals" id="petals"></div>
 
-    <div class="welcome">
+    <div class="fog"></div>
+    <div class="fog f2"></div>
+    <div class="fog f3"></div>
 
-      <h1>Привет, Зайчуля-красотуля</h1>
+    <main class="welcome">
 
-      <p class="question">
-        Как ты сегодня? Как настроение?
-      </p>
+        <div class="greeting">
+            Привет, Зайчуля-красотуля.
+        </div>
 
-      <p class="message">
-        Если сегодня был плохой день — не переживай.
-        Мы сейчас всё исправим.
-        Оставим всё плохое за этой дверью
-        и попробуем вернуть тебе улыбку и настроение.
-      </p>
+        <div class="question">
+            Как ты сегодня? Как настроение?
+        </div>
 
-      <button class="enter-button" id="enterButton">
-        Войти сюда
-      </button>
+        <div class="message">
+            Если сегодня был плохой день — не переживай.
+            Мы сейчас всё исправим.
+            Оставим всё плохое за этой дверью и попробуем вернуть тебе улыбку и настроение.
+        </div>
 
-    </div>
+        <button class="enter-button" id="enterButton">
+            Войти сюда
+        </button>
 
-  </div>
+    </main>
 
-  <div class="fade-out" id="fadeOut"></div>
+    <div class="fade" id="fade"></div>
 
-  <audio id="music" loop preload="auto">
-    <source src="music.mp3" type="audio/mpeg">
-  </audio>
+</div>
 
-  <script>
+<script>
 
-    /* =========================
-       ЗВЁЗДЫ
-    ========================= */
+/* =========================
+   STARS
+========================= */
 
-    const stars = document.getElementById("stars");
+const stars = document.getElementById("stars");
 
-    for (let i = 0; i < 130; i++) {
+const STAR_COUNT = 130;
 
-      const star = document.createElement("div");
+for(let i = 0; i < STAR_COUNT; i++){
 
-      star.className = "star";
+    const star = document.createElement("div");
 
-      star.style.left = Math.random() * 100 + "%";
-      star.style.top = Math.random() * 72 + "%";
+    star.className = "star";
 
-      star.style.setProperty(
+    if(Math.random() > .82){
+        star.classList.add("large");
+    }
+
+    star.style.left = Math.random() * 100 + "%";
+    star.style.top = Math.random() * 68 + "%";
+
+    star.style.setProperty(
         "--duration",
-        (2 + Math.random() * 5) + "s"
-      );
-
-      star.style.setProperty(
-        "--delay",
-        (-Math.random() * 5) + "s"
-      );
-
-      star.style.setProperty(
-        "--opacity",
-        (0.25 + Math.random() * 0.75)
-      );
-
-      stars.appendChild(star);
-    }
-
-
-    /* =========================
-       ЛЕПЕСТКИ
-    ========================= */
-
-    const petals = document.getElementById("petals");
-
-    function createPetal() {
-
-      const petal = document.createElement("div");
-
-      petal.className = "petal";
-
-      petal.style.left =
-        Math.random() * 100 + "%";
-
-      petal.style.setProperty(
-        "--fall",
-        (7 + Math.random() * 7) + "s"
-      );
-
-      petal.style.transform =
-        `rotate(${Math.random() * 360}deg)`;
-
-      petals.appendChild(petal);
-
-      setTimeout(() => {
-        petal.remove();
-      }, 15000);
-    }
-
-    setInterval(createPetal, 650);
-
-
-    /* =========================
-       ЛЕПЕСТКИ ПРИ КЛИКЕ
-    ========================= */
-
-    document.addEventListener("pointerdown", function(event) {
-
-      for (let i = 0; i < 7; i++) {
-
-        const petal = document.createElement("div");
-
-        petal.className = "petal";
-
-        petal.style.left = event.clientX + "px";
-        petal.style.top = event.clientY + "px";
-
-        petal.style.position = "fixed";
-
-        petal.style.animationDuration =
-          (3 + Math.random() * 3) + "s";
-
-        petals.appendChild(petal);
-
-        setTimeout(() => {
-          petal.remove();
-        }, 7000);
-      }
-
-    });
-
-
-    /* =========================
-       МУЗЫКА
-    ========================= */
-
-    const music = document.getElementById("music");
-
-    function startMusic() {
-
-      music.volume = 0.22;
-
-      music.play().catch(() => {
-        /* Браузер может заблокировать автозапуск.
-           Тогда музыка запустится после первого касания. */
-      });
-
-    }
-
-    window.addEventListener("load", startMusic);
-
-    document.addEventListener(
-      "pointerdown",
-      function startAfterTouch() {
-
-        music.play().catch(() => {});
-
-        document.removeEventListener(
-          "pointerdown",
-          startAfterTouch
-        );
-
-      },
-      { once: true }
+        (2.5 + Math.random() * 5.5) + "s"
     );
 
+    star.style.animationDelay =
+        (-Math.random() * 6) + "s";
 
-    /* =========================
-       КНОПКА ВХОДА
-    ========================= */
+    stars.appendChild(star);
+}
 
-    const enterButton =
-      document.getElementById("enterButton");
 
-    const fadeOut =
-      document.getElementById("fadeOut");
+/* =========================
+   FALLING PETALS
+========================= */
 
-    enterButton.addEventListener("click", function() {
+const petals = document.getElementById("petals");
 
-      fadeOut.classList.add("active");
+const MAX_FALLING_PETALS = 45;
 
-      setTimeout(() => {
+function createFallingPetal(startY = -20){
+
+    if(petals.children.length >= MAX_FALLING_PETALS){
+        return;
+    }
+
+    const petal = document.createElement("div");
+
+    petal.className = "petal";
+
+    petal.style.left =
+        (Math.random() * 110 - 5) + "%";
+
+    petal.style.top =
+        startY + "px";
+
+    petal.style.setProperty(
+        "--drift",
+        ((Math.random() - .5) * 300) + "px"
+    );
+
+    petal.style.setProperty(
+        "--rotation",
+        ((Math.random() - .5) * 900) + "deg"
+    );
+
+    petal.style.setProperty(
+        "--fall",
+        (8 + Math.random() * 9) + "s"
+    );
+
+    petal.style.setProperty(
+        "--opacity",
+        (.38 + Math.random() * .45).toFixed(2)
+    );
+
+    petal.style.transform =
+        `rotate(${Math.random() * 360}deg)`;
+
+    petals.appendChild(petal);
+
+    setTimeout(()=>{
+        petal.remove();
+    },18000);
+}
+
+
+/* initial petals */
+
+for(let i = 0; i < 28; i++){
+
+    setTimeout(()=>{
+        createFallingPetal(
+            -Math.random() * window.innerHeight
+        );
+    },i * 260);
+}
+
+
+/* continuous gentle snowfall */
+
+setInterval(()=>{
+
+    if(document.hidden) return;
+
+    createFallingPetal(-20);
+
+},520);
+
+
+/* =========================
+   SHOOTING STARS
+========================= */
+
+const shootingStar =
+    document.getElementById("shootingStar");
+
+function shootingStarEvent(){
+
+    if(document.hidden) return;
+
+    shootingStar.classList.remove("active");
+
+    shootingStar.style.left =
+        (72 + Math.random() * 25) + "%";
+
+    shootingStar.style.top =
+        (10 + Math.random() * 35) + "%";
+
+    void shootingStar.offsetWidth;
+
+    shootingStar.classList.add("active");
+}
+
+
+/* rare shooting stars */
+
+function scheduleShootingStar(){
+
+    const delay =
+        9000 + Math.random() * 18000;
+
+    setTimeout(()=>{
+
+        shootingStarEvent();
+
+        scheduleShootingStar();
+
+    },delay);
+}
+
+scheduleShootingStar();
+
+
+/* =========================
+   NATURAL TAP EFFECT
+========================= */
+
+let tapParticleCount = 0;
+
+const MAX_TAP_PARTICLES = 90;
+
+function createTapPetal(x,y){
+
+    if(tapParticleCount >= MAX_TAP_PARTICLES){
+        return;
+    }
+
+    tapParticleCount++;
+
+    const petal =
+        document.createElement("div");
+
+    petal.className = "tap-petal";
+
+    petal.style.left = x + "px";
+    petal.style.top = y + "px";
+
+    const angle =
+        Math.random() * Math.PI * 2;
+
+    const distance =
+        45 + Math.random() * 125;
+
+    const driftX =
+        Math.cos(angle) * distance;
+
+    const driftY =
+        Math.sin(angle) * distance;
+
+    petal.style.setProperty(
+        "--x",
+        driftX + "px"
+    );
+
+    petal.style.setProperty(
+        "--y",
+        driftY + "px"
+    );
+
+    petal.style.setProperty(
+        "--r",
+        ((Math.random() - .5) * 900) + "deg"
+    );
+
+    petal.style.setProperty(
+        "--duration",
+        (3.8 + Math.random() * 2.8) + "s"
+    );
+
+    document.querySelector(".scene")
+        .appendChild(petal);
+
+    setTimeout(()=>{
+
+        petal.remove();
+        tapParticleCount--;
+
+    },7000);
+}
+
+
+/* gentle interaction:
+   not every tap creates the same burst */
+
+document.addEventListener("pointerdown",(event)=>{
+
+    if(event.target.closest(".enter-button")){
+        return;
+    }
+
+    const amount =
+        4 + Math.floor(Math.random() * 5);
+
+    for(let i = 0; i < amount; i++){
+
+        setTimeout(()=>{
+
+            createTapPetal(
+                event.clientX + (Math.random() - .5) * 18,
+                event.clientY + (Math.random() - .5) * 18
+            );
+
+        },i * 55 + Math.random() * 100);
+    }
+
+});
+
+
+/* =========================
+   ENTER BUTTON
+========================= */
+
+const enterButton =
+    document.getElementById("enterButton");
+
+const fade =
+    document.getElementById("fade");
+
+enterButton.addEventListener("click",()=>{
+
+    /* small final petal wave */
+
+    const rect =
+        enterButton.getBoundingClientRect();
+
+    for(let i = 0; i < 14; i++){
+
+        setTimeout(()=>{
+
+            createTapPetal(
+                rect.left + rect.width / 2,
+                rect.top + rect.height / 2
+            );
+
+        },i * 45);
+    }
+
+    fade.classList.add("active");
+
+    setTimeout(()=>{
 
         /*
-          ПОКА ЗДЕСЬ ОСТАЁМСЯ НА ЭТОЙ СТРАНИЦЕ.
-
-          Позже сюда подключим настоящую
-          3D-игру.
+          Пока оставляем здесь текущую страницу.
+          Позже сюда можно поставить переход
+          в настоящую 3D-сцену.
         */
 
-        fadeOut.classList.remove("active");
+        window.location.href = "index.html";
 
-      }, 1600);
+    },1500);
 
-    });
+});
 
-  </script>
+
+/* =========================
+   VISIBILITY PERFORMANCE
+========================= */
+
+document.addEventListener(
+    "visibilitychange",
+    ()=>{
+        if(document.hidden){
+            document.querySelectorAll(".shooting-star")
+                .forEach(el=>el.classList.remove("active"));
+        }
+    }
+);
+
+</script>
 
 </body>
 </html>
